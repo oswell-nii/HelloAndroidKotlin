@@ -1,7 +1,7 @@
-# Hangman Game Project
+# Hello Android Project
 
-This is a console-based Hangman game built with Kotlin in Android Studio.  
-The game randomly selects a word, and the player guesses letters until they either complete the word or run out of attempts. It’s a fun way to practice Kotlin basics, loops, conditionals, and user input handling.
+This is my first Kotlin-based Android application created in Android Studio.  
+The app simply displays "Hello World" on the screen, serving as a starting point for learning Android development and GitHub integration.
 
 ## Purpose
 
@@ -25,7 +25,7 @@ It also serves as a foundation for exploring cloud integration later (e.g., stor
 
 # Future Plans
 
-- Add scoring system to track wins and losses
-- Store scores in Firebase for cloud integration
-- Improve word list with categories (e.g., animals, countries, tech terms)
-- Create a simple UI version in Android later  
+- Add buttons and interactive UI elements
+- Explore layouts and navigation components
+- Connect to Firebase for cloud integration
+- Build more advanced apps with user input and data storage 
