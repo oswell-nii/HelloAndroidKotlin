@@ -5,130 +5,101 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mykotlin.ui.theme.MyKotlinTheme
 
-// ✅ Data class to represent a student
-// Each student has a name and a module number
-data class Student(val name: String, var module: Int)
-
 class MainActivity : ComponentActivity() {
-    // ✅ onCreate is the entry point of the activity
-    // It sets up the Compose UI
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             MyKotlinTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    StudentInfoScreen(modifier = Modifier.padding(innerPadding))
+                    HangmanGame(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
     }
 }
 
-// ✅ Composable function that builds the UI
-// Displays student info, counter, and other Kotlin features
 @Composable
-fun StudentInfoScreen(modifier: Modifier = Modifier) {
-    // Immutable variable (val)
-    val greeting: String = "Welcome to Kotlin Module"
+fun HangmanGame(modifier: Modifier = Modifier) {
+    // ✅ Game state
+    var wordToGuess by remember { mutableStateOf("KOTLIN") }
+    var guessedLetters by remember { mutableStateOf(setOf<Char>()) }
+    var attemptsLeft by remember { mutableStateOf(6) }
+    var inputLetter by remember { mutableStateOf("") }
 
-    // Mutable variable (var) with Compose state
-    var counter by remember { mutableStateOf(0) }
+    // ✅ Display word with underscores
+    val displayWord = wordToGuess.map {
+        if (guessedLetters.contains(it)) it else '_'
+    }.joinToString(" ")
 
-    // ✅ Collection of students
-    val students = remember {
-        mutableListOf(
-            Student("Oswell", 1),
-            Student("Ama", 2),
-            Student("Kwame", 3)
-        )
-    }
+    // ✅ Check win/lose
+    val hasWon = !displayWord.contains('_')
+    val hasLost = attemptsLeft <= 0
 
     Column(
         modifier = modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        // Display greeting
-        Text(text = greeting, style = MaterialTheme.typography.titleLarge)
+        Text(text = "🎮 Hangman Game", style = MaterialTheme.typography.titleLarge)
+        Text(text = "Word: $displayWord")
+        Text(text = "Attempts left: $attemptsLeft")
 
-        // ✅ Expression using string interpolation
-        Text(text = "Counter is ${counter + 1}")
+        if (hasWon) {
+            Text("✅ You won!", color = MaterialTheme.colorScheme.primary)
+        } else if (hasLost) {
+            Text("❌ You lost! The word was $wordToGuess", color = MaterialTheme.colorScheme.error)
+        } else {
+            OutlinedTextField(
+                value = inputLetter,
+                onValueChange = { if (it.length <= 1) inputLetter = it.uppercase() },
+                label = { Text("Enter a letter") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                singleLine = true
+            )
 
-        // Button to increase counter
-        Button(onClick = { counter++ }) {
-            Text("Increase Counter")
+            Button(onClick = {
+                if (inputLetter.isNotEmpty()) {
+                    val letter = inputLetter[0]
+                    if (!guessedLetters.contains(letter)) {
+                        guessedLetters = guessedLetters + letter
+                        if (!wordToGuess.contains(letter)) {
+                            attemptsLeft--
+                        }
+                    }
+                    inputLetter = ""
+                }
+            }) {
+                Text("Guess")
+            }
         }
 
-        // ✅ Conditional statement
-        Text(
-            text = if (counter > 5) "Counter is large" else "Counter is small"
-        )
+        Spacer(modifier = Modifier.height(16.dp))
 
-        // ✅ Loop through students
-        for (student in students) {
-            Text(text = student.info())
+        Button(onClick = {
+            // Reset game
+            wordToGuess = "ANDROID" // You can randomize later
+            guessedLetters = emptySet()
+            attemptsLeft = 6
+            inputLetter = ""
+        }) {
+            Text("Restart Game")
         }
-
-        // ✅ When keyword usage
-        val moduleMessage = when (counter) {
-            0 -> "No progress yet"
-            in 1..3 -> "Getting started"
-            else -> "Advanced progress"
-        }
-        Text(text = moduleMessage)
-
-        // Call helper functions to demonstrate more features
-        Text(text = progressMessage(counter))
-        Text(text = moduleLevel(counter))
     }
 }
 
-// ✅ Extension function for Student class
-// Returns formatted info about the student
-fun Student.info(): String {
-    return "$name is in Module $module"
-}
-
-// ✅ Function that returns a motivational message
-// Uses conditionals to decide what to say
-fun progressMessage(counter: Int): String {
-    return if (counter < 3) "Keep going!" else "Great work!"
-}
-
-// ✅ Function that categorizes module number
-// Demonstrates use of the when keyword
-fun moduleLevel(module: Int): String {
-    return when (module) {
-        1 -> "Beginner"
-        2 -> "Intermediate"
-        3 -> "Advanced"
-        else -> "Expert"
-    }
-}
-
-// ✅ Function that prints numbers using a loop
-// Demonstrates a simple for loop
-fun printNumbers(): String {
-    var result = ""
-    for (i in 1..5) {
-        result += "Number: $i\n"
-    }
-    return result
-}
-
-// ✅ Preview function for Android Studio
-// Lets you see the UI without running the app
 @Preview(showBackground = true)
 @Composable
-fun PreviewStudentInfo() {
+fun PreviewHangmanGame() {
     MyKotlinTheme {
-        StudentInfoScreen()
+        HangmanGame()
     }
 }

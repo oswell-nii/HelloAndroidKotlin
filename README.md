@@ -1,24 +1,22 @@
-# Student Info Manager
+# Hangman Game
 
 This is a Kotlin-based Android application created in Android Studio.  
-The app demonstrates core Kotlin programming concepts such as variables, expressions, conditionals, loops, functions, classes, collections, data classes, and the `when` keyword — all within a simple Compose UI.
+The app demonstrates how to build an interactive game using Jetpack Compose, state management, and core Kotlin programming concepts.
 
 ## Purpose
 
 The purpose of creating this software is to strengthen my programming skills in Kotlin and Android development.  
-It helps me practice building user interfaces with Jetpack Compose, managing state, and applying key language features in a real project.  
-It also serves as a foundation for future apps with more interactive features and cloud integration.
+It helps me practice building user interfaces with Jetpack Compose, managing game state, and applying key language features in a real-world project.  
+It also serves as a foundation for future apps with more interactive features and cloud integration (e.g., Firebase or Supabase).
 
 ## Features Demonstrated
 
-- **Variables**: Immutable (`val`) and mutable (`var`)
-- **Expressions**: String interpolation for dynamic text
-- **Conditionals**: `if` statements for logic
-- **Loops**: Iterating through collections and ranges
-- **Functions**: Helper functions and extension functions
-- **Classes**: Data class `Student` with properties
-- **Collections**: Mutable list of students
-- **When keyword**: Used for progress messages and module categorization
+- **State Management**: Tracks guessed letters, attempts left, and game progress
+- **Conditionals**: Determines win/lose state and updates messages dynamically
+- **Loops**: Iterates through the word to display underscores and revealed letters
+- **Functions**: Handles guessing logic and game reset
+- **UI Components**: Text display, input fields, buttons, and restart functionality
+- **Compose Layouts**: Column arrangement with spacing and padding
 
 ## Software Demo Video
 
@@ -34,12 +32,13 @@ It also serves as a foundation for future apps with more interactive features an
 * [Kotlin Documentation](https://kotlinlang.org/docs/home.html)
 * [Android Developers Guide](https://developer.android.com/guide)
 * [Jetpack Compose Overview](https://developer.android.com/jetpack/compose)
-* [GitHub Docs](https://docs.github.com/en)
-* [Markdown Guide](https://www.markdownguide.org/basic-syntax/)
+* [Firebase for Android](https://firebase.google.com/docs/android/setup)
+* [Supabase Documentation](https://supabase.com/docs)
 
 ## Future Plans
 
-- Add input fields to update student modules
-- Create interactive UI with navigation components
-- Connect to Firebase for cloud data storage
-- Build advanced apps with user input and persistent data  
+- Add a random word list (animals, countries, tech terms)
+- Draw a hangman figure that updates with wrong guesses
+- Track scores across multiple rounds
+- Connect to Firebase or Supabase for cloud-based leaderboards
+- Publish the app to Google Play for distribution  
